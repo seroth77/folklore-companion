@@ -1,0 +1,18 @@
+{
+  "editor.rulers": [
+    120
+  ],
+  "terminal.integrated.cwd": "D:\\Source\\Repos\\folklore-companion",
+  "editor.formatOnPaste": true,
+  "dotnet-test-explorer.codeLensFailed": "Failed",
+  "dotnet-test-explorer.codeLensPassed": "Passed",
+  "dotnet-test-explorer.codeLensSkipped": "Skipped",
+  "dotnet-test-explorer.enableTelemetry": false,
+  "jestTestExplorer.logpanel": true,
+"emmet.showAbbreviationSuggestions": false,
+"workbench.colorCustomizations": {
+    "activityBar.background": "#571327",
+    "titleBar.activeBackground": "#7A1B37",
+    "titleBar.activeForeground": "#FEFBFC"
+}
+}

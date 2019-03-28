@@ -1,0 +1,19 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "jsRules": {},
+    "linterOptions": {
+        "exclude": [
+            "**/*.snap"
+        ]
+    },
+    "rules": {
+        "object-literal-key-quotes": {
+            "options": "as-needed"
+        },
+        "no-require-imports": true
+    },
+    "rulesDirectory": []
+}
