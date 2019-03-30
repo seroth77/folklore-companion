@@ -1,6 +1,7 @@
 import { AppBar, Toolbar } from "@material-ui/core";
 import { createStyles, Theme, withStyles, WithStyles } from "@material-ui/core/styles";
 import * as React from "react";
+import CharacterSelection from "../Content/CharacterSelection";
 import NavBarDesktop from "./components/NavBarDesktop";
 import NavBarDesktopMenu from "./components/NavBarDesktopMenu";
 import NavBarMobile from "./components/NavBarMobile";
@@ -12,6 +13,7 @@ const styles = () => createStyles({
     flexGrow: 1,
   },
   root: {
+    backgroundColor: "gray",
     width: "100%",
   },
 });
@@ -53,6 +55,8 @@ class Layout extends React.Component<ILayoutProps, ILayoutState> {
           mobileMenuCloseHandler={this.handleMobileMenuClose}
           profileMenuHandler={this.handleProfileMenuOpen}
         />
+
+        <CharacterSelection />
       </div>
     );
   }

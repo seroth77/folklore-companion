@@ -1,0 +1,54 @@
+[{
+  "Adventure": "Core",
+  "Characters": [{
+      "Archetype": "The Arcanist",
+      "Description": "A dabbler in the arcane and a seeker of secrets. Her occult knowledge is peerless.",
+      "Equipment": {
+        "Weapon": "Stiletto"
+      },
+      "Immunities": ["TRANSFORMED"]
+    },
+    {
+      "Abilities": ["IMMOBILIZED"],
+      "Archetype": "The Archeologist",
+      "Description": "A scholar possessing knowledge of things ancient and mystical",
+      "Equipment": {
+        "Weapon": "Whip"
+      }
+    },
+    {
+      "Archetype": "The Avenging Madman",
+      "Description": "A revenge driven farm-hand whose family was slaughtered by vampires. His rage has made him unstable but strong.",
+      "Equipment": {
+        "Weapon": "Bale Hook"
+      },
+      "Immunities": ["DERANGED"],
+      "Limitations": ["Ranged"]
+    },
+    {
+      "Abilities": ["PRAYER"],
+      "Archetype": "The Exorcist",
+      "Description": "A holy man sent to purge the lands of evil.",
+      "Equipment": {
+        "Weapon": "Aspergillum"
+      },
+      "Immunities": ["BLOODLUST"]
+    },
+    {
+      "Abilities": ["FOCUS"],
+      "Archetype": "The Telepath",
+      "Description": "A talented mentalist who can access unique and powerful psychic Abilities.",
+      "Equipment": {
+        "Weapon": "Quartz Lantern"
+      }
+    },
+    {
+      "Archetype": "The Witch Hunter",
+      "Description": "A fanatical bounty hunter sworn to undo all paganism.",
+      "Equipment": {
+        "Weapon": "Crossbow"
+      },
+      "Immunities": ["SPOOKED"]
+    }
+  ]
+}]
