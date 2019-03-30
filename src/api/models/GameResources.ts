@@ -6,10 +6,12 @@ export interface ICharacterResources {
     Weapon?: string;
   };
   Immunities?: string[];
+  Key?: string;
   Limitations?: string[];
 }
 
 export interface IGameResources {
   Adventure: string;
   Characters: ICharacterResources[];
+  Key?: string;
 }

@@ -1,9 +1,15 @@
+import { faBook } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  Avatar,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
   CircularProgress,
   ExpansionPanel,
   ExpansionPanelDetails,
   ExpansionPanelSummary,
-  Paper,
   Typography,
 } from "@material-ui/core";
 import { createStyles, Theme, withStyles, WithStyles } from "@material-ui/core/styles";
@@ -33,6 +39,7 @@ interface ICharacterSelectionProps extends InjectedIntlProps, WithStyles<typeof 
 
 interface ICharacterSelectionState {
   data: IGameResources[];
+  expanded?: string;
   loading: boolean;
 }
 
@@ -43,6 +50,7 @@ function responseData(data: IGameResources[]) {
 class CharacterSelection extends React.Component<ICharacterSelectionProps, ICharacterSelectionState> {
   public state: ICharacterSelectionState = {
     data: [],
+    expanded: null,
     loading: false,
   };
 
@@ -56,7 +64,7 @@ class CharacterSelection extends React.Component<ICharacterSelectionProps, IChar
   }
 
   public render() {
-    const { data, loading } = this.state;
+    const { data, expanded, loading } = this.state;
     const { classes } = this.props;
 
     const responseDataMemoized = this.responseDataMemoized(data);
@@ -66,35 +74,56 @@ class CharacterSelection extends React.Component<ICharacterSelectionProps, IChar
         {loading && <CircularProgress />}
         {!loading &&
           responseDataMemoized.map((resource: IGameResources) => (
-            <ExpansionPanel>
-              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography className={classes.heading}>
-                  <FormattedMessage id={resource.Adventure} />
-                </Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
+            <Card key={resource.Key}>
+              <CardHeader
+                title={<FormattedMessage id={resource.Adventure} />}
+              />
+              <CardContent>
                 {resource.Characters.map((character: ICharacterResources) => (
-                  <>
-                    <Paper>
-                      <Typography variant="h5" component="h3">
-                        {character.Archetype}
-                      </Typography>
+                  <ExpansionPanel
+                    expanded={expanded === "panel" + character.Key}
+                    key={character.Key}
+                    onChange={this.handleChange("panel" + character.Key)}
+                  >
+                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                      <FontAwesomeIcon icon={faBook} size="2x" />
+                      <Typography className={classes.heading}>{character.Archetype}</Typography>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
                       <Typography component="p">
                         {character.Description}
                       </Typography>
-                    </Paper>
-                  </>
+                      <Button variant="contained" color="primary">
+                        Select
+                      </Button>
+                    </ExpansionPanelDetails>
+                  </ExpansionPanel>
                 ))}
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
+              </CardContent>
+            </Card>
           ))}
       </div>
     );
   }
 
   private async fetchData() {
-    const data = await this.service.fetchGameManuals();
-    console.log(data);
+    const data = await this.service.fetchGameManuals().then(
+      (response) => {
+        return response.map((x) => {
+          return {
+            ...x,
+            Characters: x.Characters.map((y) => {
+              return {
+                ...y,
+                Key: Math.random().toString(),
+              };
+            }),
+            Key: Math.random().toString(),
+          };
+        });
+      },
+    );
+
     this.setState({
       loading: true,
     });
@@ -107,22 +136,11 @@ class CharacterSelection extends React.Component<ICharacterSelectionProps, IChar
     }
   }
 
-  // private handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-  //   this.setState({ anchorEl: event.currentTarget });
-  // };
-
-  // private handleMenuClose = () => {
-  //   this.setState({ anchorEl: null });
-  //   this.handleMobileMenuClose();
-  // };
-
-  // private handleMobileMenuClose = () => {
-  //   this.setState({ mobileMoreAnchorEl: null });
-  // };
-
-  // private handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-  //   this.setState({ mobileMoreAnchorEl: event.currentTarget });
-  // };
+  private handleChange = (panel: string) => (event: any, expanded: boolean) => {
+    this.setState({
+      expanded: expanded ? panel : null,
+    });
+  }
 }
 
 export default withStyles(styles)(injectIntl(CharacterSelection));

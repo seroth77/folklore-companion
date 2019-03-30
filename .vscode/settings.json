@@ -2,7 +2,7 @@
   "editor.rulers": [
     120
   ],
-  "terminal.integrated.cwd": "D:\\Source\\Repos\\folklore-companion",
+  "terminal.integrated.cwd": "C:\\Users\\serot\\Source\\Repos\\folklore-companion",
   "editor.formatOnPaste": true,
   "dotnet-test-explorer.codeLensFailed": "Failed",
   "dotnet-test-explorer.codeLensPassed": "Passed",
@@ -14,5 +14,15 @@
     "activityBar.background": "#571327",
     "titleBar.activeBackground": "#7A1B37",
     "titleBar.activeForeground": "#FEFBFC"
-}
+},
+"cSpell.words": [
+  "Arcanist",
+  "Archeologist",
+  "Aspergillum",
+  "BLOODLUST",
+  "Memoized",
+  "Telepath",
+  "fontawesome",
+  "fortawesome"
+]
 }
