@@ -1,10 +1,18 @@
-import { ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, Typography } from "@material-ui/core";
+import {
+  CircularProgress,
+  ExpansionPanel,
+  ExpansionPanelDetails,
+  ExpansionPanelSummary,
+  Paper,
+  Typography,
+} from "@material-ui/core";
 import { createStyles, Theme, withStyles, WithStyles } from "@material-ui/core/styles";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import memoizeOne from "memoize-one";
 import * as React from "react";
 import { FormattedMessage, InjectedIntlProps, injectIntl } from "react-intl";
 import GameResourcesService from "../../../api/GameResourcesService/GameResourcesService";
-import { IGameResources } from "../../../api/models/GameResources";
+import { ICharacterResources, IGameResources } from "../../../api/models/GameResources";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -28,13 +36,18 @@ interface ICharacterSelectionState {
   loading: boolean;
 }
 
+function responseData(data: IGameResources[]) {
+  return data;
+}
+
 class CharacterSelection extends React.Component<ICharacterSelectionProps, ICharacterSelectionState> {
   public state: ICharacterSelectionState = {
     data: [],
-    loading: false
+    loading: false,
   };
 
   private readonly service = new GameResourcesService();
+  private readonly responseDataMemoized = memoizeOne(responseData);
   private mounted = false;
 
   public componentDidMount() {
@@ -46,16 +59,35 @@ class CharacterSelection extends React.Component<ICharacterSelectionProps, IChar
     const { data, loading } = this.state;
     const { classes } = this.props;
 
+    const responseDataMemoized = this.responseDataMemoized(data);
+
     return (
       <div className={classes.root}>
-        <ExpansionPanel>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>
-              <FormattedMessage id="coreGame" />
-            </Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>TODO: Add Character Cards Here</ExpansionPanelDetails>
-        </ExpansionPanel>
+        {loading && <CircularProgress />}
+        {!loading &&
+          responseDataMemoized.map((resource: IGameResources) => (
+            <ExpansionPanel>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography className={classes.heading}>
+                  <FormattedMessage id={resource.Adventure} />
+                </Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                {resource.Characters.map((character: ICharacterResources) => (
+                  <>
+                    <Paper>
+                      <Typography variant="h5" component="h3">
+                        {character.Archetype}
+                      </Typography>
+                      <Typography component="p">
+                        {character.Description}
+                      </Typography>
+                    </Paper>
+                  </>
+                ))}
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+          ))}
       </div>
     );
   }
@@ -64,13 +96,13 @@ class CharacterSelection extends React.Component<ICharacterSelectionProps, IChar
     const data = await this.service.fetchGameManuals();
     console.log(data);
     this.setState({
-      loading: true
+      loading: true,
     });
 
     if (this.mounted) {
       this.setState({
         data,
-        loading: false
+        loading: false,
       });
     }
   }
