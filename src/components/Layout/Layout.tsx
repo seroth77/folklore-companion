@@ -1,6 +1,7 @@
 import { AppBar, Toolbar } from "@material-ui/core";
 import { createStyles, Theme, withStyles, WithStyles } from "@material-ui/core/styles";
 import * as React from "react";
+import Content from "../Content";
 import CharacterSelection from "../Content/CharacterSelection";
 import NavBarDesktop from "./components/NavBarDesktop";
 import NavBarDesktopMenu from "./components/NavBarDesktopMenu";
@@ -56,7 +57,8 @@ class Layout extends React.Component<ILayoutProps, ILayoutState> {
           profileMenuHandler={this.handleProfileMenuOpen}
         />
 
-        <CharacterSelection />
+        {/* <CharacterSelection /> */}
+        <Content />
       </div>
     );
   }

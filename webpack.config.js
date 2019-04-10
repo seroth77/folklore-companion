@@ -1,10 +1,16 @@
+const CleanWebpackPlugin = require("clean-webpack-plugin");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
+const StyleLintPlugin = require("stylelint-webpack-plugin");
 const path = require("path");
+
+const cleanWebpackPlugin = new CleanWebpackPlugin()
 
 const htmlPlugin = new HtmlWebPackPlugin({
     template: "./src/index.html",
     filename: "./index.html"
 });
+
+const styleLintPlugin = new StyleLintPlugin();
 
 module.exports = {
     entry: './src/index.tsx',
@@ -13,7 +19,8 @@ module.exports = {
     },
     output: {
         path: path.join(__dirname, '/dist'),
-        filename: 'bundle.min.js',
+        filename: '[name].[hash].js',
+        chunkFilename: '[name].[chunkhash].bundle.js',
     },
     module: {
         rules: [
@@ -29,22 +36,63 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [
-                    {
-                        loader: "style-loader"
-                    },
-                    {
-                        loader: "css-loader",
-                        options: {
-                            modules: true,
-                            importLoaders: 1,
-                            localIdentName: "[name]_[local]_[hash:base64]",
-                            sourceMap: true,
-                            minimize: true
-                        }
-                    }
-                ]
+                    "style-loader",
+                    "css-loader",
+                    "postcss-loader",
+                ],
+            },
+            {
+              test: /\.scss$/,
+              use: [
+                "style-loader",
+                {
+                  loader: "css-loader",
+                  options: {
+                    importLoaders: 2,
+                    modules: true,
+                  },
+                },
+                "postcss-loader",
+                "sass-loader"
+              ],
+              exclude: [
+                /node_modules/,
+                path.join(__dirname, "src", "styles")
+              ],
+            },
+            {
+              test: /\.scss$/,
+              use: [
+                "style-loader",
+                "css-loader",
+                "postcss-loader",
+                "sass-loader"
+              ],
+              include: [
+                path.join(__dirname, "src", "styles")
+              ]
             },
         ]
     },
-    plugins: [htmlPlugin]
+    resolve: {
+      extensions: [".tsx", ".ts", ".js", ".json", ".css", ".scss"]
+    },
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          vendor: {
+            test: /node_modules/,
+            chunks: "initial",
+            name: "vendor",
+            priority: 10,
+            enforce: true
+          },
+        }
+      }
+    },
+    plugins: [
+      cleanWebpackPlugin,
+      htmlPlugin,
+      styleLintPlugin,
+    ]
 };
