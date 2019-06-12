@@ -41,7 +41,7 @@ class Layout extends React.Component<ILayoutProps, ILayoutState> {
     return (
       <div className={classes.root}>
         <AppBar position="static">
-          <Toolbar>
+          <Toolbar className={classes.root}>
             <NavBarTitle />
             <div className={classes.grow} />
             <NavBarDesktop isMenuOpen={isMenuOpen} profileHandler={this.handleProfileMenuOpen} />

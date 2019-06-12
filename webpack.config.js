@@ -1,9 +1,9 @@
-const CleanWebpackPlugin = require("clean-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const StyleLintPlugin = require("stylelint-webpack-plugin");
 const path = require("path");
 
-const cleanWebpackPlugin = new CleanWebpackPlugin()
+const cleanWebpackPlugin = new CleanWebpackPlugin();
 
 const htmlPlugin = new HtmlWebPackPlugin({
     template: "./src/index.html",
@@ -71,6 +71,10 @@ module.exports = {
               include: [
                 path.join(__dirname, "src", "styles")
               ]
+            },
+            {
+              test: /\.(png|jp(e*)g|svg)$/,
+              loader: "url-loader",
             },
         ]
     },

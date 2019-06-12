@@ -2,7 +2,7 @@
   "editor.rulers": [
     120
   ],
-  "terminal.integrated.cwd": "C:\\Users\\serot\\Source\\Repos\\folklore-companion",
+  "terminal.integrated.cwd": "D:\\Source\\Repos\\folklore-companion",
   "editor.formatOnPaste": true,
   "dotnet-test-explorer.codeLensFailed": "Failed",
   "dotnet-test-explorer.codeLensPassed": "Passed",
